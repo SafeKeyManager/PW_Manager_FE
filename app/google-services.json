@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "745118447487",
+    "project_id": "pw-manager-97400",
+    "storage_bucket": "pw-manager-97400.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745118447487:android:8ec227f49266b492080c4a",
+        "android_client_info": {
+          "package_name": "com.pw_manager.front"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ-ibLJqwHy-5ObAsv-DJ7kSw3D-QkepQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745118447487:android:32c571f76bd9abc3080c4a",
+        "android_client_info": {
+          "package_name": "com.pw_manager.myapplicationpw_manager_fe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ-ibLJqwHy-5ObAsv-DJ7kSw3D-QkepQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
