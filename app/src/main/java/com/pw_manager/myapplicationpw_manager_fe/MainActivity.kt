@@ -1,9 +1,12 @@
 package com.pw_manager.myapplicationpw_manager_fe
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -27,6 +30,23 @@ class MainActivity : AppCompatActivity() {
         //사용안하면 삭제하기
         /** DynamicLink 수신확인 */
         initDynamicLink()
+
+        // 버튼 클릭 리스너 설정
+        binding.button.setOnClickListener {
+            openNaverLoginPage()
+        }
+    }
+
+
+    // 버튼 클릭 시 호출될 함수
+    private fun openNaverLoginPage() {
+        // 웹 페이지로 이동하고자 하는 URL을 String으로 지정합니다.
+        val url = "http://192.168.219.104:8080/oauth2/authorization/naver"
+        // Intent를 생성하고 액션에 ACTION_VIEW를, 데이터에는 URL을 지정합니다.
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(url)
+        }
+        startActivity(intent)
     }
 
     /** Android 13 PostNotification */
@@ -65,4 +85,6 @@ class MainActivity : AppCompatActivity() {
             binding.tvToken.text = dataStr
         }
     }
+
+
 }
