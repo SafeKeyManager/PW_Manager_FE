@@ -42,10 +42,12 @@ class MyRepository(
     }
 
     suspend fun sendFcmToken(jsonData:String) = withContext(Dispatchers.IO){
+        val jwtToken = getJwtToken()
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody = jsonData.toRequestBody(mediaType)
         val request = Request.Builder()
             .url("http://192.168.219.104:8080/api/v1/fcm/token")
+            .addHeader("Authorization","Bearer ${jwtToken}")
             .post(requestBody)
             .build()
         Log.d("실제 보내는 fcm토큰 형식", jsonData)

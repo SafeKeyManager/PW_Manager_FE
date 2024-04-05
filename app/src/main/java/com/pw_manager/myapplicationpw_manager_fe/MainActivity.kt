@@ -31,8 +31,6 @@ class MainActivity : AppCompatActivity() {
         // ViewModel 초기화
         viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(MyViewModel::class.java)
 
-        viewModel.sendFirebaseToken()
-
         /** PostNotification 대응 */
         checkAppPushNotification()
 
@@ -68,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
             Log.i("JWT-Token", "Token successfully saved in SharedPreferences")
+            viewModel.sendFirebaseToken()
         }
     }
 
@@ -79,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             data = Uri.parse(url)
         }
         startActivity(intent)
+
     }
 
     /** Android 13 PostNotification */
