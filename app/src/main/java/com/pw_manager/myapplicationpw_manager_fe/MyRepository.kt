@@ -17,7 +17,7 @@ class MyRepository(
 
     suspend fun sendPostRequest(jsonData:String) = withContext(Dispatchers.IO){
         //if(jwtToken == null)
-        val jwtToken = getToken()
+        val jwtToken = getJwtToken()
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody = jsonData.toRequestBody(mediaType)
         val request = Request.Builder()
@@ -36,8 +36,28 @@ class MyRepository(
         }
     }
 
-    private fun getToken(): String? {
+    private fun getJwtToken(): String? {
         val sharedPreferences = context.getSharedPreferences("JwtToken", Context.MODE_PRIVATE)
         return sharedPreferences.getString("JwtToken", null)
     }
+
+    suspend fun sendFcmToken(jsonData:String) = withContext(Dispatchers.IO){
+        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val requestBody = jsonData.toRequestBody(mediaType)
+        val request = Request.Builder()
+            .url("http://192.168.219.104:8080/api/v1/fcm/token")
+            .post(requestBody)
+            .build()
+        Log.d("실제 보내는 fcm토큰 형식", jsonData)
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                // 요청 실패 처리
+                Log.d("http://192.168.219.104:8080/api/v1/fcm/token", "요청 실패")
+            } else {
+                Log.d("http://192.168.219.104:8080/api/v1/fcm/token", "요청 성공")
+            }
+        }
+    }
+
+
 }

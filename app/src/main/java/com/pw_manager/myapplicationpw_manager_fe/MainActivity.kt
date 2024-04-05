@@ -25,11 +25,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /** FCM설정, Token값 가져오기 */
+        MyFirebaseMessagingService().getFirebaseToken()
+
         // ViewModel 초기화
         viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(MyViewModel::class.java)
 
-        /** FCM설정, Token값 가져오기 */
-        MyFirebaseMessagingService().getFirebaseToken()
+        viewModel.sendFCM("fcmToken")
 
         /** PostNotification 대응 */
         checkAppPushNotification()
@@ -113,10 +115,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getSavedFcmToken(): String {
+    /*fun getSavedFcmToken(): String {
         // SharedPreferences에서 FCM 토큰을 가져오는 코드
-        val pref = applicationContext.getSharedPreferences("token", Context.MODE_PRIVATE)
-        return pref.getString("token", "") ?: ""
-    }
+        val pref = applicationContext.getSharedPreferences("FcmToken", Context.MODE_PRIVATE)
+        return pref.getString("FcmToken", "") ?: "getsavefcmtokenisnull"
+    }*/
 
 }

@@ -10,9 +10,11 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.tasks.await
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     /** 푸시 알림으로 보낼 수 있는 메세지는 2가지
@@ -26,11 +28,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "new Token: $token")
 
         // 토큰 값을 따로 저장
-        val pref = this.getSharedPreferences("token", Context.MODE_PRIVATE)
+        val pref = this.getSharedPreferences("FcmToken", Context.MODE_PRIVATE)
         val editor = pref.edit()
-        editor.putString("token", token).apply()
+        editor.putString("FcmToken", token).apply()
         editor.commit()
-        Log.i(TAG, "성공적으로 토큰을 저장함")
+        Log.d(TAG, "성공적으로 토큰을 저장함")
+
+
     }
 
     /** 메시지 수신 메서드(포그라운드) */
@@ -123,6 +127,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //비동기 방식
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             Log.d(TAG, "token=${it}")
+
         }
 
 //		  //동기방식

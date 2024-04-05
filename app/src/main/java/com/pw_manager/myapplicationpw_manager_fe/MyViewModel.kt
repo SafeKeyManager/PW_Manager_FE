@@ -13,4 +13,12 @@ class MyViewModel(private val repository: MyRepository) : ViewModel() {
             Log.d("sendPostRequest", "성공?")
         }
     }
+
+    fun sendFCM(jsonData: String) {
+        viewModelScope.launch {
+            repository.sendFcmToken(jsonData)
+            // 여기서 데이터 전송 결과를 처리
+            Log.d("sendFcmToken", "성공?")
+        }
+    }
 }
