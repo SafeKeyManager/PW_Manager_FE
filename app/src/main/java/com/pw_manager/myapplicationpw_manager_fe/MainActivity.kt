@@ -25,13 +25,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /** FCM설정, Token값 가져오기 */
-        MyFirebaseMessagingService().getFirebaseToken()
+        /*val result = MyFirebaseMessagingService().getFirebaseToken().result
+        Log.d("fcmtoken :::::", "Token=${result}")*/
 
         // ViewModel 초기화
         viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(MyViewModel::class.java)
 
-        viewModel.sendFCM("fcmToken")
+        viewModel.sendFirebaseToken()
 
         /** PostNotification 대응 */
         checkAppPushNotification()

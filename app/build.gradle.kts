@@ -59,4 +59,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
+    //implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1")
+
 }

@@ -11,6 +11,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -123,12 +124,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     /** Token 가져오기 */
-    fun getFirebaseToken() {
+    fun getFirebaseToken() : Task<String>  {
         //비동기 방식
-        FirebaseMessaging.getInstance().token.addOnSuccessListener {
-            Log.d(TAG, "token=${it}")
-
-        }
+        return FirebaseMessaging.getInstance().token}
 
 //		  //동기방식
 //        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -139,7 +137,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //                var deviceToken = task.result
 //                Log.e(TAG, "token=${deviceToken}")
 //            })
-    }
+
 }
 
 /**
