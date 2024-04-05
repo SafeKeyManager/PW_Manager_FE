@@ -1,11 +1,13 @@
 package com.pw_manager.myapplicationpw_manager_fe
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -36,13 +38,22 @@ class MainActivity : AppCompatActivity() {
             openNaverLoginPage()
         }
     }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent) // 새 인텐트를 현재 인텐트로 설정
 
+        val data = intent?.data
+        if (data != null && data.scheme == "secretmanagerapp" && data.host == "oauthcallback") {
+            val token = data.getQueryParameter("token")
+
+            Log.d("JWT-Token", "jwt token: $token")
+        }
+    }
 
     // 버튼 클릭 시 호출될 함수
     private fun openNaverLoginPage() {
-        // 웹 페이지로 이동하고자 하는 URL을 String으로 지정합니다.
+
         val url = "http://192.168.219.104:8080/oauth2/authorization/naver"
-        // Intent를 생성하고 액션에 ACTION_VIEW를, 데이터에는 URL을 지정합니다.
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(url)
         }
@@ -86,5 +97,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    fun getSavedFcmToken(): String {
+        // SharedPreferences에서 FCM 토큰을 가져오는 코드
+        val pref = applicationContext.getSharedPreferences("token", Context.MODE_PRIVATE)
+        return pref.getString("token", "") ?: ""
+    }
 }
