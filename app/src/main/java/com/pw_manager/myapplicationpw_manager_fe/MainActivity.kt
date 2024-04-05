@@ -9,19 +9,24 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.pw_manager.myapplicationpw_manager_fe.MyFirebaseMessagingService
 import com.pw_manager.myapplicationpw_manager_fe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-
+    private lateinit var viewModel: MyViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // ViewModel 초기화
+        viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(MyViewModel::class.java)
 
         /** FCM설정, Token값 가져오기 */
         MyFirebaseMessagingService().getFirebaseToken()
@@ -34,8 +39,14 @@ class MainActivity : AppCompatActivity() {
         initDynamicLink()
 
         // 버튼 클릭 리스너 설정
-        binding.button.setOnClickListener {
+        binding.openNaverLoginPageButton.setOnClickListener {
             openNaverLoginPage()
+        }
+
+        // 버튼 클릭 리스너 설정
+        binding.addSite.setOnClickListener {
+            val jsonData = """{ "siteName":"국민대학교", "siteUrl":"http://kookmin.co.kr", "siteCycle":12 }"""
+            viewModel.sendData(jsonData)
         }
     }
     override fun onNewIntent(intent: Intent?) {
@@ -47,6 +58,14 @@ class MainActivity : AppCompatActivity() {
             val token = data.getQueryParameter("token")
 
             Log.d("JWT-Token", "jwt token: $token")
+
+            val sharedPreferences = getSharedPreferences("JwtToken", Context.MODE_PRIVATE)
+            with(sharedPreferences.edit()){
+                remove("JwtToken")
+                putString("JwtToken", token)
+                commit()
+            }
+            Log.i("JWT-Token", "Token successfully saved in SharedPreferences")
         }
     }
 
@@ -80,9 +99,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-
     //사용안하면 삭제하기
     /** DynamicLink */
     private fun initDynamicLink() {
@@ -102,4 +118,5 @@ class MainActivity : AppCompatActivity() {
         val pref = applicationContext.getSharedPreferences("token", Context.MODE_PRIVATE)
         return pref.getString("token", "") ?: ""
     }
+
 }
