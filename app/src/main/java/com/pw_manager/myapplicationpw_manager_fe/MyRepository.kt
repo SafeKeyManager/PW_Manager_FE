@@ -14,14 +14,14 @@ class MyRepository(
 ) {
 
     private val client = OkHttpClient()
-
+    private val serverIp = BuildConfig.SERVER_IP
     suspend fun sendPostRequest(jsonData:String) = withContext(Dispatchers.IO){
         //if(jwtToken == null)
         val jwtToken = getJwtToken()
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody = jsonData.toRequestBody(mediaType)
         val request = Request.Builder()
-            .url("http://192.168.219.104:8080/site/add")
+            .url("http://${serverIp}:8080/site/add")
             .addHeader("Authorization","Bearer ${jwtToken}")
             .post(requestBody)
             .build()
@@ -29,9 +29,9 @@ class MyRepository(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
                 // 요청 실패 처리
-                Log.d("http://192.168.219.104:8080/site/add", "요청 실패")
+                Log.d("http://${serverIp}:8080/site/add", "요청 실패")
             } else {
-                Log.d("http://192.168.219.104:8080/site/add", "요청 성공")
+                Log.d("http://${serverIp}:8080/site/add", "요청 성공")
             }
         }
     }
@@ -46,7 +46,7 @@ class MyRepository(
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody = jsonData.toRequestBody(mediaType)
         val request = Request.Builder()
-            .url("http://192.168.219.104:8080/api/v1/fcm/token")
+            .url("http://${serverIp}:8080/api/v1/fcm/token")
             .addHeader("Authorization","Bearer ${jwtToken}")
             .post(requestBody)
             .build()
@@ -54,9 +54,9 @@ class MyRepository(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
                 // 요청 실패 처리
-                Log.d("http://192.168.219.104:8080/api/v1/fcm/token", "요청 실패")
+                Log.d("http://${serverIp}:8080/api/v1/fcm/token", "요청 실패")
             } else {
-                Log.d("http://192.168.219.104:8080/api/v1/fcm/token", "요청 성공")
+                Log.d("http://${serverIp}:8080/api/v1/fcm/token", "요청 성공")
             }
         }
     }

@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.pw_manager.myapplicationpw_manager_fe.MyFirebaseMessagingService
+import com.pw_manager.myapplicationpw_manager_fe.BuildConfig
 import com.pw_manager.myapplicationpw_manager_fe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -72,8 +72,8 @@ class MainActivity : AppCompatActivity() {
 
     // 버튼 클릭 시 호출될 함수
     private fun openNaverLoginPage() {
-
-        val url = "http://192.168.219.104:8080/oauth2/authorization/naver"
+        val serverIp = BuildConfig.SERVER_IP
+        val url = "http://${serverIp}:8080/oauth2/authorization/naver"
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(url)
         }
