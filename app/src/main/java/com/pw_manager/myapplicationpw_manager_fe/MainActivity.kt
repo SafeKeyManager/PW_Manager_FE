@@ -38,47 +38,12 @@ class MainActivity : AppCompatActivity() {
         /** DynamicLink 수신확인 */
         initDynamicLink()
 
-        // 버튼 클릭 리스너 설정
-        binding.openNaverLoginPageButton.setOnClickListener {
-            openNaverLoginPage()
-        }
 
         // 버튼 클릭 리스너 설정
         binding.addSite.setOnClickListener {
             val jsonData = """{ "siteName":"국민대학교", "siteUrl":"http://kookmin.co.kr", "siteCycle":12 }"""
             viewModel.sendData(jsonData)
         }
-    }
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        setIntent(intent) // 새 인텐트를 현재 인텐트로 설정
-
-        val data = intent?.data
-        if (data != null && data.scheme == "secretmanagerapp" && data.host == "oauthcallback") {
-            val token = data.getQueryParameter("token")
-
-            Log.d("JWT-Token", "jwt token: $token")
-
-            val sharedPreferences = getSharedPreferences("JwtToken", Context.MODE_PRIVATE)
-            with(sharedPreferences.edit()){
-                remove("JwtToken")
-                putString("JwtToken", token)
-                commit()
-            }
-            Log.i("JWT-Token", "Token successfully saved in SharedPreferences")
-            viewModel.sendFirebaseToken()
-        }
-    }
-
-    // 버튼 클릭 시 호출될 함수
-    private fun openNaverLoginPage() {
-        val serverIp = BuildConfig.SERVER_IP
-        val url = "http://${serverIp}:8080/oauth2/authorization/naver"
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(url)
-        }
-        startActivity(intent)
-
     }
 
     /** Android 13 PostNotification */
@@ -114,11 +79,5 @@ class MainActivity : AppCompatActivity() {
             binding.tvToken.text = dataStr
         }
     }
-
-    /*fun getSavedFcmToken(): String {
-        // SharedPreferences에서 FCM 토큰을 가져오는 코드
-        val pref = applicationContext.getSharedPreferences("FcmToken", Context.MODE_PRIVATE)
-        return pref.getString("FcmToken", "") ?: "getsavefcmtokenisnull"
-    }*/
 
 }

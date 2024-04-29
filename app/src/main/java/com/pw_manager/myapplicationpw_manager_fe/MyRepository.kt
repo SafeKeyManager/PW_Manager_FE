@@ -29,9 +29,9 @@ class MyRepository(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
                 // 요청 실패 처리
-                Log.d("http://${serverIp}:8080/site/add", "요청 실패")
+                Log.d("http://schedules.store/site/add", "요청 실패")
             } else {
-                Log.d("http://${serverIp}:8080/site/add", "요청 성공")
+                Log.d("http://schedules.store/site/add", "요청 성공")
             }
         }
     }
@@ -54,7 +54,7 @@ class MyRepository(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
                 // 요청 실패 처리
-                Log.d("http://${serverIp}:8080/api/v1/fcm/token", "요청 실패")
+                Log.d("http://schedules.store/api/v1/fcm/token", "요청 실패")
             } else {
                 Log.d("http://${serverIp}:8080/api/v1/fcm/token", "요청 성공")
             }
