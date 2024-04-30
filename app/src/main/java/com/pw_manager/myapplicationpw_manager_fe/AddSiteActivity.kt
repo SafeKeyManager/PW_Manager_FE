@@ -30,6 +30,7 @@ class AddSiteActivity : AppCompatActivity() {
 
         binding.SiteAddSubmitBnt.setOnClickListener {
             addSite()
+            finish()
         }
     }
 
