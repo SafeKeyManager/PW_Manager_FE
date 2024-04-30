@@ -16,7 +16,7 @@ class MyRepository(
     private val client = OkHttpClient()
     private val serverIp = BuildConfig.SERVER_IP
     suspend fun sendAddSiteRequest(jsonData:String) = withContext(Dispatchers.IO){
-        val jwtToken = getJwtToken()
+        val jwtToken = App.prefs.token
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody = jsonData.toRequestBody(mediaType)
         val request = Request.Builder()
@@ -35,13 +35,8 @@ class MyRepository(
         }
     }
 
-    private fun getJwtToken(): String? {
-        val sharedPreferences = context.getSharedPreferences("JwtToken", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("JwtToken", null)
-    }
-
     suspend fun sendFcmToken(jsonData:String) = withContext(Dispatchers.IO){
-        val jwtToken = getJwtToken()
+        val jwtToken = App.prefs.token
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody = jsonData.toRequestBody(mediaType)
         val request = Request.Builder()

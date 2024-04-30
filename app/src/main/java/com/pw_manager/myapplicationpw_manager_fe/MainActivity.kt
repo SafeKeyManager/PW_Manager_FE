@@ -16,6 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.pw_manager.myapplicationpw_manager_fe.BuildConfig
 import com.pw_manager.myapplicationpw_manager_fe.databinding.ActivityMainBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -25,19 +28,43 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        loadData()
+
         // ViewModel 초기화
         viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(MyViewModel::class.java)
 
         /** PostNotification 대응 */
         checkAppPushNotification()
 
-        //사용안하면 삭제하기
-        /** DynamicLink 수신확인 */
-        //initDynamicLink()
-
         binding.ToAddSite.setOnClickListener {
             goToAddSiteActivity()
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        loadData()
+    }
+
+    private fun loadData(){
+        RetrofitClient.apiService.getMySiteList("", 0, 10).enqueue(object : Callback<List<Site>> {
+            override fun onResponse(call: Call<List<Site>>, response: Response<List<Site>>) {
+                if (response.isSuccessful) {
+                    val sites = response.body() ?: emptyList()
+                    // 성공적으로 데이터를 받아 처리하는 로직
+                    Log.d("Retrofit 응답 받기 일단 성공","Retrofit성공?")
+                    Log.d("sites의 첫번째 : ", sites.get(0).siteName)
+                } else {
+                    // 서버 에러 처리
+                    Log.d("Retrofit 응답 받기 실패","Retrofit실패?")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Site>>, t: Throwable) {
+                // 통신 실패 처리
+                Log.d("Retrofit 통신 실패","Retrofit 실패")
+            }
+        })
     }
 
     private fun goToAddSiteActivity() {
@@ -66,18 +93,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //사용안하면 삭제하기
-    /** DynamicLink */
-//    private fun initDynamicLink() {
-//        val dynamicLinkData = intent.extras
-//        if (dynamicLinkData != null) {
-//            var dataStr = "DynamicLink 수신받은 값\n"
-//            for (key in dynamicLinkData.keySet()) {
-//                dataStr += "key: $key / value: ${dynamicLinkData.getString(key)}\n"
-//            }
-//
-//            binding.tvToken.text = dataStr
-//        }
-//    }
 
 }

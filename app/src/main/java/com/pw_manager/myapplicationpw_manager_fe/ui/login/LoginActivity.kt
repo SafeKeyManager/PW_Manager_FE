@@ -16,6 +16,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import com.pw_manager.myapplicationpw_manager_fe.App
 import com.pw_manager.myapplicationpw_manager_fe.BuildConfig
 import com.pw_manager.myapplicationpw_manager_fe.MainActivity
 import com.pw_manager.myapplicationpw_manager_fe.MyRepository
@@ -136,12 +137,8 @@ class LoginActivity : AppCompatActivity() {
 
             Log.d("JWT-Token", "jwt token: $token")
 
-            val sharedPreferences = getSharedPreferences("JwtToken", Context.MODE_PRIVATE)
-            with(sharedPreferences.edit()){
-                remove("JwtToken")
-                putString("JwtToken", token)
-                commit()
-            }
+            App.prefs.token = token
+
             Log.i("JWT-Token", "Token successfully saved in SharedPreferences")
             viewModel.sendFirebaseToken()
 
