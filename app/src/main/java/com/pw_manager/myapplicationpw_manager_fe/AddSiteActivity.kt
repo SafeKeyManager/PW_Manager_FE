@@ -1,5 +1,6 @@
 package com.pw_manager.myapplicationpw_manager_fe
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -30,6 +31,7 @@ class AddSiteActivity : AppCompatActivity() {
 
         binding.SiteAddSubmitBnt.setOnClickListener {
             addSite()
+            goToMainActivity()
             finish()
         }
     }
@@ -51,5 +53,9 @@ class AddSiteActivity : AppCompatActivity() {
         viewModel.sendAddSite(jsonObject.toString())
     }
 
-
+    private fun goToMainActivity() {
+        val mainActivityIntent = Intent(this, MainActivity::class.java)
+        startActivity(mainActivityIntent)
+        finish()
+    }
 }

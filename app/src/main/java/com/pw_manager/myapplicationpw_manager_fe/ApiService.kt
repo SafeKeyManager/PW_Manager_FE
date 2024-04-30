@@ -10,5 +10,5 @@ interface ApiService {
         @Query("searchTerm") searchTerm: String,
         @Query("page") page: Int,
         @Query("size") size: Int = 10
-    ): Call<List<Site>>
+    ): Call<SiteResponse>
 }

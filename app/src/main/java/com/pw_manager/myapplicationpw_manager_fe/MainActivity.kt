@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.pw_manager.myapplicationpw_manager_fe.BuildConfig
 import com.pw_manager.myapplicationpw_manager_fe.databinding.ActivityMainBinding
 import retrofit2.Call
@@ -23,11 +24,15 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MyViewModel
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: SiteAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        recyclerView = findViewById(R.id.sitesRecyclerView)
+        adapter = SiteAdapter(emptyList())
+        recyclerView.adapter = adapter
         loadData()
 
         // ViewModel 초기화
@@ -43,26 +48,34 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        recyclerView = findViewById(R.id.sitesRecyclerView)
+        adapter = SiteAdapter(emptyList())
+        recyclerView.adapter = adapter
         loadData()
     }
 
     private fun loadData(){
-        RetrofitClient.apiService.getMySiteList("", 0, 10).enqueue(object : Callback<List<Site>> {
-            override fun onResponse(call: Call<List<Site>>, response: Response<List<Site>>) {
+        RetrofitClient.apiService.getMySiteList("", 0, 10).enqueue(object : Callback<SiteResponse> {
+            override fun onResponse(call: Call<SiteResponse>, response: Response<SiteResponse>) {
                 if (response.isSuccessful) {
-                    val sites = response.body() ?: emptyList()
+                    val siteResponse = response.body() ?: SiteResponse()
                     // 성공적으로 데이터를 받아 처리하는 로직
                     Log.d("Retrofit 응답 받기 일단 성공","Retrofit성공?")
-                    Log.d("sites의 첫번째 : ", sites.get(0).siteName)
+                    Log.d("sites의 마지막 요소 : ", siteResponse.content[siteResponse.content.size-1].siteName)
+
+
+                    adapter = SiteAdapter(siteResponse.content)
+                    recyclerView.adapter = adapter
                 } else {
                     // 서버 에러 처리
                     Log.d("Retrofit 응답 받기 실패","Retrofit실패?")
                 }
             }
 
-            override fun onFailure(call: Call<List<Site>>, t: Throwable) {
+            override fun onFailure(call: Call<SiteResponse>, t: Throwable) {
                 // 통신 실패 처리
                 Log.d("Retrofit 통신 실패","Retrofit 실패")
+                Log.e("API Error", "Request failed: ${t.message}", t)
             }
         })
     }
@@ -70,7 +83,9 @@ class MainActivity : AppCompatActivity() {
     private fun goToAddSiteActivity() {
         val AddSiteActivityIntent = Intent(this, AddSiteActivity::class.java)
         startActivity(AddSiteActivityIntent)
-        //finish()
+        //다시 siteLIst가져와야 하기 때문에 새로 시작하는게 ...
+        finish()
+
     }
 
     /** Android 13 PostNotification */
