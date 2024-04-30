@@ -15,8 +15,7 @@ class MyRepository(
 
     private val client = OkHttpClient()
     private val serverIp = BuildConfig.SERVER_IP
-    suspend fun sendPostRequest(jsonData:String) = withContext(Dispatchers.IO){
-        //if(jwtToken == null)
+    suspend fun sendAddSiteRequest(jsonData:String) = withContext(Dispatchers.IO){
         val jwtToken = getJwtToken()
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody = jsonData.toRequestBody(mediaType)

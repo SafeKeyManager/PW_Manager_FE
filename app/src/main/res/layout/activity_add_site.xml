@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddSiteActivity">
+
+
+    <LinearLayout
+        android:layout_width="351dp"
+        android:layout_height="203dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="34dp"
+        tools:layout_editor_absoluteY="221dp">
+
+        <EditText
+            android:id="@+id/AddSiteName"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:hint="사이트 이름"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/AddSiteURL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="사이트 주소"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/AddSiteUpdateCycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="비밀번호 업데이트 주기"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/SiteAddSubmitBnt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="사이트 추가하기" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

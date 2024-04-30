@@ -9,13 +9,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class MyViewModel(private val repository: MyRepository) : ViewModel() {
-    fun sendData(jsonData: String) {
+
+    //사이트 추가 요청
+    fun sendAddSite(jsonData: String){
         viewModelScope.launch {
-            repository.sendPostRequest(jsonData)
-            // 여기서 데이터 전송 결과를 처리
-            Log.d("sendPostRequest", "성공?")
+            repository.sendAddSiteRequest(jsonData)
+            Log.d("사이트 추가 요청", "성공?")
         }
     }
+
 
     fun sendFCM(jsonData: String) {
         viewModelScope.launch {

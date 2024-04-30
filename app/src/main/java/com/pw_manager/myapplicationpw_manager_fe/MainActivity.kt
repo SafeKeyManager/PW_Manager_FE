@@ -25,9 +25,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*val result = MyFirebaseMessagingService().getFirebaseToken().result
-        Log.d("fcmtoken :::::", "Token=${result}")*/
-
         // ViewModel 초기화
         viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(MyViewModel::class.java)
 
@@ -36,14 +33,17 @@ class MainActivity : AppCompatActivity() {
 
         //사용안하면 삭제하기
         /** DynamicLink 수신확인 */
-        initDynamicLink()
+        //initDynamicLink()
 
-
-        // 버튼 클릭 리스너 설정
-        binding.addSite.setOnClickListener {
-            val jsonData = """{ "siteName":"국민대학교", "siteUrl":"http://kookmin.co.kr", "siteCycle":12 }"""
-            viewModel.sendData(jsonData)
+        binding.ToAddSite.setOnClickListener {
+            goToAddSiteActivity()
         }
+    }
+
+    private fun goToAddSiteActivity() {
+        val AddSiteActivityIntent = Intent(this, AddSiteActivity::class.java)
+        startActivity(AddSiteActivityIntent)
+        //finish()
     }
 
     /** Android 13 PostNotification */
@@ -68,16 +68,16 @@ class MainActivity : AppCompatActivity() {
 
     //사용안하면 삭제하기
     /** DynamicLink */
-    private fun initDynamicLink() {
-        val dynamicLinkData = intent.extras
-        if (dynamicLinkData != null) {
-            var dataStr = "DynamicLink 수신받은 값\n"
-            for (key in dynamicLinkData.keySet()) {
-                dataStr += "key: $key / value: ${dynamicLinkData.getString(key)}\n"
-            }
-
-            binding.tvToken.text = dataStr
-        }
-    }
+//    private fun initDynamicLink() {
+//        val dynamicLinkData = intent.extras
+//        if (dynamicLinkData != null) {
+//            var dataStr = "DynamicLink 수신받은 값\n"
+//            for (key in dynamicLinkData.keySet()) {
+//                dataStr += "key: $key / value: ${dynamicLinkData.getString(key)}\n"
+//            }
+//
+//            binding.tvToken.text = dataStr
+//        }
+//    }
 
 }

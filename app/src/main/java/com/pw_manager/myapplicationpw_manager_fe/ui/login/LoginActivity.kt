@@ -152,7 +152,7 @@ class LoginActivity : AppCompatActivity() {
     private fun goToMainActivity() {
         val mainActivityIntent = Intent(this, MainActivity::class.java)
         startActivity(mainActivityIntent)
-        finish() // LoginActivity는 종료합니다.
+        finish()
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
