@@ -1,10 +1,12 @@
-package com.pw_manager.myapplicationpw_manager_fe
+package com.pw_manager.myapplicationpw_manager_fe.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.pw_manager.myapplicationpw_manager_fe.R
+import com.pw_manager.myapplicationpw_manager_fe.entity.Site
 
 class SiteAdapter(private val sites: List<Site>) : RecyclerView.Adapter<SiteAdapter.SiteViewHolder>() {
     class SiteViewHolder(view: View) : RecyclerView.ViewHolder(view) {

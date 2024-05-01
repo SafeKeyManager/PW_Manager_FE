@@ -1,4 +1,4 @@
-package com.pw_manager.myapplicationpw_manager_fe
+package com.pw_manager.myapplicationpw_manager_fe.activity.add
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.pw_manager.myapplicationpw_manager_fe.MyRepository
+import com.pw_manager.myapplicationpw_manager_fe.MyViewModel
+import com.pw_manager.myapplicationpw_manager_fe.MyViewModelFactory
+import com.pw_manager.myapplicationpw_manager_fe.R
+import com.pw_manager.myapplicationpw_manager_fe.activity.MainActivity
 import com.pw_manager.myapplicationpw_manager_fe.databinding.ActivityAddSiteBinding
 import org.json.JSONException
 import org.json.JSONObject
@@ -21,7 +26,8 @@ class AddSiteActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityAddSiteBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(MyViewModel::class.java)
+        viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(
+            MyViewModel::class.java)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -32,7 +38,6 @@ class AddSiteActivity : AppCompatActivity() {
         binding.SiteAddSubmitBnt.setOnClickListener {
             addSite()
             goToMainActivity()
-            finish()
         }
     }
 

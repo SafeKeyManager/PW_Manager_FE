@@ -1,5 +1,6 @@
-package com.pw_manager.myapplicationpw_manager_fe
+package com.pw_manager.myapplicationpw_manager_fe.restapi
 
+import com.pw_manager.myapplicationpw_manager_fe.App
 import okhttp3.Interceptor
 import okhttp3.Response
 

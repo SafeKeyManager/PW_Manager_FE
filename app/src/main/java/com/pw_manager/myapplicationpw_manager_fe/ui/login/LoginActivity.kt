@@ -1,7 +1,6 @@
 package com.pw_manager.myapplicationpw_manager_fe.ui.login
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.Observer
@@ -18,7 +17,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.pw_manager.myapplicationpw_manager_fe.App
 import com.pw_manager.myapplicationpw_manager_fe.BuildConfig
-import com.pw_manager.myapplicationpw_manager_fe.MainActivity
+import com.pw_manager.myapplicationpw_manager_fe.activity.MainActivity
 import com.pw_manager.myapplicationpw_manager_fe.MyRepository
 import com.pw_manager.myapplicationpw_manager_fe.MyViewModel
 import com.pw_manager.myapplicationpw_manager_fe.MyViewModelFactory

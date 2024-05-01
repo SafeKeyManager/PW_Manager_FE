@@ -1,6 +1,6 @@
-package com.pw_manager.myapplicationpw_manager_fe
+package com.pw_manager.myapplicationpw_manager_fe.restapi
 
-import android.content.Context
+import com.pw_manager.myapplicationpw_manager_fe.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

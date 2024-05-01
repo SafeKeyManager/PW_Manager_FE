@@ -1,4 +1,7 @@
-package com.pw_manager.myapplicationpw_manager_fe
+package com.pw_manager.myapplicationpw_manager_fe.entity
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 data class SiteResponse(
     val content: List<Site> = emptyList(),
@@ -13,6 +16,7 @@ data class SiteResponse(
     val empty: Boolean = true
 )
 
+@Parcelize
 data class Site(
     val siteName: String,
     val siteUrl: String,
@@ -20,8 +24,10 @@ data class Site(
     val id: Long?,
     val createDate: String,
     val updateDate: String,
-    val siteStatus: String
-)
+    val siteStatus: String,
+    //deleteActivity에서 사용
+    var isChecked: Boolean = false
+) : Parcelable
 
 data class Pageable(
     val pageNumber: Int = 0,

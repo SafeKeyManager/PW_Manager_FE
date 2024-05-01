@@ -1,22 +1,27 @@
-package com.pw_manager.myapplicationpw_manager_fe
+package com.pw_manager.myapplicationpw_manager_fe.activity
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.pw_manager.myapplicationpw_manager_fe.BuildConfig
+import com.pw_manager.myapplicationpw_manager_fe.MyRepository
+import com.pw_manager.myapplicationpw_manager_fe.MyViewModel
+import com.pw_manager.myapplicationpw_manager_fe.MyViewModelFactory
+import com.pw_manager.myapplicationpw_manager_fe.R
+import com.pw_manager.myapplicationpw_manager_fe.adapter.SiteAdapter
+import com.pw_manager.myapplicationpw_manager_fe.activity.add.AddSiteActivity
+import com.pw_manager.myapplicationpw_manager_fe.activity.delete.DeleteSiteActivity
 import com.pw_manager.myapplicationpw_manager_fe.databinding.ActivityMainBinding
+import com.pw_manager.myapplicationpw_manager_fe.entity.Site
+import com.pw_manager.myapplicationpw_manager_fe.entity.SiteResponse
+import com.pw_manager.myapplicationpw_manager_fe.restapi.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MyViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SiteAdapter
+
+    var sites_redis = emptyList<Site>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,13 +43,18 @@ class MainActivity : AppCompatActivity() {
         loadData()
 
         // ViewModel 초기화
-        viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(MyViewModel::class.java)
+        viewModel = ViewModelProvider(this, MyViewModelFactory(MyRepository(applicationContext))).get(
+            MyViewModel::class.java)
 
         /** PostNotification 대응 */
         checkAppPushNotification()
 
         binding.ToAddSite.setOnClickListener {
             goToAddSiteActivity()
+        }
+
+        binding.ToDeleteSite.setOnClickListener {
+            goToDeleteSiteActivity()
         }
     }
 
@@ -63,8 +75,10 @@ class MainActivity : AppCompatActivity() {
                     Log.d("Retrofit 응답 받기 일단 성공","Retrofit성공?")
                     Log.d("sites의 마지막 요소 : ", siteResponse.content[siteResponse.content.size-1].siteName)
 
-
-                    adapter = SiteAdapter(siteResponse.content)
+                    sites_redis = siteResponse.content.filter {
+                        it.siteStatus.equals("REDIS", ignoreCase = true)
+                    }
+                    adapter = SiteAdapter(sites_redis)
                     recyclerView.adapter = adapter
                 } else {
                     // 서버 에러 처리
@@ -86,6 +100,15 @@ class MainActivity : AppCompatActivity() {
         //다시 siteLIst가져와야 하기 때문에 새로 시작하는게 ...
         finish()
 
+    }
+
+    private fun goToDeleteSiteActivity() {
+        val DeleteSiteActivityIntent = Intent(this, DeleteSiteActivity::class.java)
+
+        DeleteSiteActivityIntent.putParcelableArrayListExtra("sites_redis", ArrayList(sites_redis))
+        startActivity(DeleteSiteActivityIntent)
+
+        finish()
     }
 
     /** Android 13 PostNotification */
