@@ -44,6 +44,10 @@ class MainActivity : AppCompatActivity() {
         binding.ToAddSite.setOnClickListener {
             goToAddSiteActivity()
         }
+
+        binding.ToDeleteSite.setOnClickListener {
+            goToDeleteSiteActivity()
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -83,6 +87,14 @@ class MainActivity : AppCompatActivity() {
     private fun goToAddSiteActivity() {
         val AddSiteActivityIntent = Intent(this, AddSiteActivity::class.java)
         startActivity(AddSiteActivityIntent)
+        //다시 siteLIst가져와야 하기 때문에 새로 시작하는게 ...
+        finish()
+
+    }
+
+    private fun goToDeleteSiteActivity() {
+        val DeleteSiteActivityIntent = Intent(this, DeleteSiteActivity::class.java)
+        startActivity(DeleteSiteActivityIntent)
         //다시 siteLIst가져와야 하기 때문에 새로 시작하는게 ...
         finish()
 

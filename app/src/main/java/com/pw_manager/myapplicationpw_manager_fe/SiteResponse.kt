@@ -20,7 +20,8 @@ data class Site(
     val id: Long?,
     val createDate: String,
     val updateDate: String,
-    val siteStatus: String
+    val siteStatus: String,
+    var isChecked: Boolean = false
 )
 
 data class Pageable(
