@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("sites의 마지막 요소 : ", siteResponse.content[siteResponse.content.size-1].siteName)
 
 
-                    adapter = SiteAdapter(siteResponse.content)
+                    adapter = SiteAdapter(siteResponse.content.filter { site -> site.siteStatus.equals("REGIS") })
                     recyclerView.adapter = adapter
                 } else {
                     // 서버 에러 처리

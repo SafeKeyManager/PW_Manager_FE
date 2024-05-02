@@ -36,4 +36,8 @@ class DeleteSiteAdapter(private val sites: List<Site>) : RecyclerView.Adapter<De
         }
     }
 
+    fun getCheckedSiteIds(): List<Long>{
+        return sites.filter { it.isChecked }.mapNotNull { it.id }
+    }
+
 }

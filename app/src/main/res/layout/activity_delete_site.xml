@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".DeleteSiteActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/deletesitesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="352dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-16dp" />
+
     <Button
         android:id="@+id/DeleteSitebnt"
         android:layout_width="147dp"
